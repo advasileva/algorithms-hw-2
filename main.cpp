@@ -4,7 +4,7 @@
 #include "algorithms/1-naive.cpp"
 #include "algorithms/2-kmp-standard.cpp"
 #include "algorithms/3-kmp-refined.cpp"
-#include "strings.cpp"
+#include "texts.cpp"
 
 /*
  * АиСД-2, 2023, задание 2
@@ -14,9 +14,10 @@
 
 using namespace std;
 
-int MEASURE_TIMES = 1;
-std::string algorithm_name = "";
-std::string text_name = "";
+int MEASURE_TIMES = 10;
+std::string algorithm_name;
+std::string text_name;
+int pattern_size = 0;
 char separator = ';';
 std::ofstream results;
 std::ofstream input;
@@ -26,11 +27,12 @@ std::ofstream output;
 void record(int x) {
     results << algorithm_name << separator
             << text_name << separator
+            << pattern_size << separator
             << x << "\n";
 }
 
 // Измеряет время выполнения функции
-long long evaluate(vector<int> (func)(string, string), string text, string pattern) {
+long long evaluate(vector<int> (func)(string, string), const string& text, const string& pattern) {
     input << text << ' ' << pattern << '\n';
     vector<int> ocurrs;
 
@@ -52,7 +54,7 @@ long long evaluate(vector<int> (func)(string, string), string text, string patte
 }
 
 // Итерация по количеству измерений времени
-void iterateMeasureTimes(vector<int> (func)(string, string), string text, string pattern) {
+void iterateMeasureTimes(vector<int> (func)(string, string), const string& text, const string& pattern) {
     double sum = 0;
     for (int i = 0; i < MEASURE_TIMES; ++i) {
         sum += evaluate(func, text, pattern);
@@ -62,8 +64,9 @@ void iterateMeasureTimes(vector<int> (func)(string, string), string text, string
 }
 
 // Итерация по паттернам
-void iteratePatterns(vector<int> (func)(string, string), string text) {
+void iteratePatterns(vector<int> (func)(string, string), const string& text) {
     for (int i = 10; i <= 300; i += 10) { // fix to 100, 3000, 100
+        pattern_size = i;
         iterateMeasureTimes(func, text, text.substr(1000, i));
     }
 }
@@ -95,17 +98,12 @@ void iterateAlgorithms() {
     }
 }
 
-// Исполнение выбраного кейса
-void executeCase(std::string filename) {
-    results.open(filename);
-    iterateAlgorithms();
-    results.close();
-}
-
 int main() {
     input.open("../input.txt", std::ios_base::beg);
     output.open("../output.txt", std::ios_base::beg);
 
-    executeCase("../data.csv");
+    results.open("../data.csv");
+    iterateAlgorithms();
+    results.close();
     return 0;
 }
