@@ -12,9 +12,12 @@
  * IDE: Clion
  */
 
+// TODO conclusions
+// TODO Z-function
+
 using namespace std;
 
-int MEASURE_TIMES = 10;
+int MEASURE_TIMES = 1; // TODO 10
 std::string algorithm_name;
 std::string text_name;
 int pattern_size = 0;
@@ -64,24 +67,23 @@ void iterateMeasureTimes(vector<int> (func)(string, string), const string& text,
 }
 
 // Итерация по паттернам
-void iteratePatterns(vector<int> (func)(string, string), const string& text) {
-    for (int i = 10; i <= 300; i += 10) { // fix to 100, 3000, 100
+void iteratePatterns(vector<int> (func)(string, string), const string& text, int wildcards) {
+    string pattern;
+    for (int i = 10; i <= 300; i += 10) { // TODO 100, 3000, 100
         pattern_size = i;
-        iterateMeasureTimes(func, text, text.substr(1000, i));
+        pattern = text.substr(1000, i);
+        for (int j = 0; j < wildcards; ++j) {
+            pattern[wildcard[j] % pattern.size()] = '?';
+        }
+        iterateMeasureTimes(func, text, pattern);
     }
 }
 
 // Итерация по исходным текстам
 void iterateTexts(vector<int> (func)(string, string)) {
-    pair<string, const char *> arrays[] = {
-            make_pair(standardSmallBin, "standard-small-bin"),
-            make_pair(standardSmallSq, "standard-small-sq"),
-            make_pair(standardBigBin, "standard-big-bin"),
-            make_pair(standardBigSq, "standard-big-sq"),
-    };
-    for (auto & array : arrays) {
+    for (auto & array : getTexts()) {
         text_name = array.second;
-        iteratePatterns(func, array.first);
+        iteratePatterns(func, array.first.first, array.first.second);
     }
 }
 
