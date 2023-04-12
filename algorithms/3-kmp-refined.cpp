@@ -9,7 +9,7 @@ std::vector<int> kmpRefined(std::string text, std::string pattern) {
         int found = pattern.find('?');
         for (char letter : maxAlph) {
             pattern[found] = letter;
-            std::vector<int> extend = kmpStandard(text, pattern);
+            std::vector<int> extend = kmpRefined(text, pattern);
             occurrences.insert(occurrences.end(), extend.begin(), extend.end());
         }
         return occurrences;

@@ -48,7 +48,7 @@ vector<int> wildcard = getWildCards();
 
 vector<pair<pair<string, int>, string>> getTexts() {
     vector<pair<pair<string, int>, string>> arrays;
-    for (int i = 0; i < 5; ++i) {
+    for (int i = 0; i < 2; ++i) {
         arrays.push_back(make_pair(make_pair(standardSmallBin, i), "wildcard-" + std::to_string(i) + "-small-bin"));
         arrays.push_back(make_pair(make_pair(standardSmallSq, i), "wildcard-" + std::to_string(i) + "-small-sq"));
         arrays.push_back(make_pair(make_pair(standardBigBin, i), "wildcard-" + std::to_string(i) + "-big-bin"));

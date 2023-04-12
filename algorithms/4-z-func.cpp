@@ -9,50 +9,26 @@ std::vector<int> zFunction(std::string text, std::string pattern) {
         int found = pattern.find('?');
         for (char letter : maxAlph) {
             pattern[found] = letter;
-            std::vector<int> extend = kmpStandard(text, pattern);
+            std::vector<int> extend = zFunction(text, pattern);
             occurrences.insert(occurrences.end(), extend.begin(), extend.end());
         }
         return occurrences;
     }
 
-    int k;
-    int n = text.size(), m = pattern.size();
-    std::vector<int> br(m);
-    br[0] = 0;
-    k = 0;
-    for (int i = 1; i < m; ++i) {
-        while (k > 0 && pattern[k] != pattern[i]) {
-            k = br[k - 1];
+    int l = 0, r = 0;
+    std::string s = pattern + "#" + text;
+    std::vector<int> z(s.size());
+    for (int i = 1; i < s.size(); ++i) {
+        z[i] = std::max(0, std::min(r - i + 1, z[i - l]));
+        while (i + z[i] < s.size() && s[z[i]] == s[z[i] + i]) {
+            z[i]++;
         }
-        if (pattern[k] == pattern[i]) {
-            k++;
+        if (i + z[i] - 1 > r) {
+            l = i;
+            r = i + z[i] - 1;
         }
-        br[i] = k;
-    }
-
-    std::vector<int> brs(m);
-    brs[0] = 0;
-    for (int i = 1; i < m; ++i) {
-        if (pattern[br[i]] != pattern[i + 1]) {
-            brs[i] = br[i];
-        } else {
-            brs[i] = brs[br[i - 1]];
-        }
-    }
-
-    k = 0;
-    for (int i = 0; i < n; ++i) {
-        while (k > 0 && pattern[k] != text[i]) {
-            k = brs[k - 1];
-        }
-        if (pattern[k] == text[i]) {
-            k++;
-        } else if (k > 0) {
-            k = brs[k - 1];
-        }
-        if (k == m) {
-            occurrences.push_back(i - m + 1);
-            k = brs[m - 1];
+        if (z[i] == pattern.size()) {
+            occurrences.push_back(i - pattern.size() - 1);
         }
     }
 

@@ -18,7 +18,7 @@
 
 using namespace std;
 
-int MEASURE_TIMES = 5; // TODO 10
+int MEASURE_TIMES = 1; // TODO 10
 std::string algorithm_name;
 std::string text_name;
 int pattern_size = 0;
@@ -91,9 +91,9 @@ void iterateTexts(vector<int> (func)(string, string)) {
 // Итерация по алгоритмам поиска подстрок
 void iterateAlgorithms() {
     pair<vector<int> (*)(string, string), const char *> sorts[] = {
-            make_pair(naive, "naive"),
-            make_pair(kmpStandard, "kmp-standard"),
-            make_pair(kmpRefined, "kmp-refined"),
+//            make_pair(naive, "naive"),
+//            make_pair(kmpStandard, "kmp-standard"),
+//            make_pair(kmpRefined, "kmp-refined"),
             make_pair(zFunction, "z-function"),
     };
     for (auto & sort : sorts) {
