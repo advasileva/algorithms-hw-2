@@ -10,15 +10,12 @@
 /*
  * АиСД-2, 2023, задание 2
  * Васильева Алёна Дмитриевна БПИ218
- * IDE: Clion
+ * IDE: Clion, vscode
  */
-
-// TODO conclusions
-// TODO Z-function
 
 using namespace std;
 
-int MEASURE_TIMES = 1; // TODO 10
+int MEASURE_TIMES = 10;
 std::string algorithm_name;
 std::string text_name;
 int pattern_size = 0;
@@ -70,7 +67,7 @@ void iterateMeasureTimes(vector<int> (func)(string, string), const string& text,
 // Итерация по паттернам
 void iteratePatterns(vector<int> (func)(string, string), const string& text, int wildcards) {
     string pattern;
-    for (int i = 100; i <= 3000; i += 100) { // TODO 100, 3000, 100
+    for (int i = 100; i <= 3000; i += 100) {
         pattern_size = i;
         pattern = text.substr(1000, i);
         for (int j = 0; j < wildcards; ++j) {
@@ -91,9 +88,9 @@ void iterateTexts(vector<int> (func)(string, string)) {
 // Итерация по алгоритмам поиска подстрок
 void iterateAlgorithms() {
     pair<vector<int> (*)(string, string), const char *> sorts[] = {
-//            make_pair(naive, "naive"),
-//            make_pair(kmpStandard, "kmp-standard"),
-//            make_pair(kmpRefined, "kmp-refined"),
+            make_pair(naive, "naive"),
+            make_pair(kmpStandard, "kmp-standard"),
+            make_pair(kmpRefined, "kmp-refined"),
             make_pair(zFunction, "z-function"),
     };
     for (auto & sort : sorts) {
